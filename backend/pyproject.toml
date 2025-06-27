@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = ""
+authors = ["Aadarsha <aadarshakarki000@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^5.2.3"
+djangorestframework = "^3.16.0"
+python-decouple = "^3.8"
+gunicorn = "^23.0.0"
+psycopg = {extras = ["binary"], version = "^3.2.9"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

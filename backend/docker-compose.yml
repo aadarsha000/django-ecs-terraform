@@ -1,0 +1,33 @@
+services:
+  app:
+    container_name: task_management
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      - task_management_db
+    environment:
+      - RUN_MODE=django
+
+  task_management_db:
+    container_name: task_management_db
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
