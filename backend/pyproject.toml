@@ -12,6 +12,9 @@ djangorestframework = "^3.16.0"
 python-decouple = "^3.8"
 gunicorn = "^23.0.0"
 psycopg = {extras = ["binary"], version = "^3.2.9"}
+celery = "^5.5.3"
+gevent = "^25.5.1"
+redis = "^6.2.0"
 
 
 [build-system]
