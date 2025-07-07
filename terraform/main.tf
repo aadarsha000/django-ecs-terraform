@@ -92,3 +92,16 @@ module "ecs" {
   postgres_host          = module.postgres.db_instance_endpoint
   postgres_port          = "5432"
 }
+
+# 7. S3
+module "s3" {
+  source = "./modules/s3"
+  aws_region = var.aws_region
+  bucket_name = "your-app-static-bucket"
+  block_public_access = {
+    block_public_acls       = true
+    block_public_policy     = true
+    ignore_public_acls      = true
+    restrict_public_buckets = true
+  }
+}
