@@ -59,8 +59,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Ensure all startup scripts use UNIX line endings and are executable
-RUN sed -i 's/\r$//' entrypoint.sh django_start.sh \
-    && chmod +x entrypoint.sh django_start.sh
+RUN sed -i 's/\r$//' entrypoint.sh django_start.sh celery_worker_start.sh flower_start.sh\
+    && chmod +x entrypoint.sh django_start.sh celery_worker_start.sh flower_start.sh
 
 # Entrypoint
 ENTRYPOINT ["./entrypoint.sh"]

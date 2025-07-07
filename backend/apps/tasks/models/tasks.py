@@ -55,12 +55,9 @@ class Task(AbstractBaseModel):
 
     def save(self, *args, **kwargs):
         # Ensure assigned_by is an ADMIN
-        if (
-            self.assigned_by.role != User.Role.ADMIN
-            or self.assigned_by.role != User.Role.MANAGER
-        ):
+        if self.assigned_by.role not in [User.Role.ADMIN, User.Role.MANAGER]:
             raise ValueError("Task can only be assigned by an Admin or Manager.")
         # Ensure assigned_to is a MANAGER
-        if self.assigned_to.role != User.Role.TEAM_LEADER:
-            raise ValueError("Task can only be assigned to a Team leader.")
+        if self.assigned_to.role != User.Role.MANAGER:
+            raise ValueError("Task can only be assigned to a Manager.")
         super().save(*args, **kwargs)

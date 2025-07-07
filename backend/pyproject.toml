@@ -15,6 +15,9 @@ psycopg = {extras = ["binary"], version = "^3.2.9"}
 celery = "^5.5.3"
 gevent = "^25.5.1"
 redis = "^6.2.0"
+flower = "^2.0.1"
+channels = {extras = ["daphne"], version = "^4.2.2"}
+django-storages = {extras = ["s3"], version = "^1.14.6"}
 
 
 [build-system]

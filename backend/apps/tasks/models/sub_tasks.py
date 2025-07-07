@@ -52,20 +52,22 @@ class SubTask(models.Model):
         return f"SubTask: {self.title} (for Task: {self.task.title})"
 
     def save(self, *args, **kwargs):
-        # Ensure assigned_by is a Team Leader and is the assigned_to of the parent Task
+        # Ensure assigned_by is the Team Leader responsible for the parent Task
         if (
-            self.assigned_by.role != User.Role.TEAM_LEADER
+            self.assigned_by.role != User.Role.MANAGER
             or self.assigned_by != self.task.assigned_to
         ):
             raise ValueError(
                 "SubTask can only be assigned by the Team Leader responsible for the parent Task."
             )
-        # Ensure assigned_to is a TEAM_LEADER and reports to the assigned_by Team Leader
+
+        # Ensure assigned_to is an Employee reporting to the Team Leader
         if (
             self.assigned_to.role != User.Role.EMPLOYEE
             or self.assigned_to.report_to != self.assigned_by
         ):
             raise ValueError(
-                "SubTask can only be assigned to a Team Leader who reports to the assigning Employee."
+                "SubTask can only be assigned to an Employee who reports to the assigning Team Leader."
             )
+
         super().save(*args, **kwargs)

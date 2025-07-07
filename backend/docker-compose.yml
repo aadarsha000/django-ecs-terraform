@@ -8,13 +8,48 @@ services:
     env_file:
       - .env
     ports:
-      - "8000:8000"
+      - "80:80"
     volumes:
       - .:/app
     depends_on:
       - task_management_db
     environment:
       - RUN_MODE=django
+
+  celery:
+    container_name: task_management_celery
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      - task_management_db
+      - task_management_redis
+    environment:
+      - RUN_MODE=celery
+
+  flower:
+    container_name: task_management_flower
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "5555:5555"
+    volumes:
+      - .:/app
+    depends_on:
+      - task_management_db
+      - task_management_redis
+    environment:
+      - RUN_MODE=flower
+
 
   task_management_db:
     container_name: task_management_db
@@ -28,6 +63,13 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  task_management_redis:
+    container_name: task_management_redis
+    image: redis:8.0.1
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
 
 volumes:
   postgres_data:

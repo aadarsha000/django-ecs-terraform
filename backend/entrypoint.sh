@@ -50,6 +50,8 @@ done
 
 if [ "${RUN_MODE:-django}" = "celery" ]; then
   exec bash ./celery_worker_start.sh
+elif [ "${RUN_MODE:-django}" = "flower" ]; then
+  exec bash ./flower_start.sh
 else
   exec bash ./django_start.sh
 fi
