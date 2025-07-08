@@ -1,13 +1,15 @@
-variable "cluster_name" {
+variable "ecs_cluster_id" {
   type = string
 }
 
 variable "fargate_cpu" {
   type = string
+  default = "256"
 }
 
 variable "fargate_memory" {
   type = string
+  default = "512"
 }
 
 variable "execution_role_arn" {
@@ -22,10 +24,6 @@ variable "app_image" {
   type = string
 }
 
-variable "container_port" {
-  type = number
-}
-
 variable "private_subnets" {
   type = list(string)
 }
@@ -36,26 +34,6 @@ variable "security_groups" {
 
 variable "alb_target_group_arn" {
   type = string
-}
-
-variable "desired_count" {
-  type = number
-}
-
-variable "min_capacity" {
-  type    = number
-  default = 1
-}
-
-variable "max_capacity" {
-  type    = number
-  default = 3
-}
-
-variable "cpu_target_value" {
-  type        = number
-  description = "Target CPU utilization percentage for scaling"
-  default     = 70
 }
 
 variable "aws_region" {
@@ -71,7 +49,7 @@ variable "postgres_user" {
 }
 
 variable "postgres_password" {
-  type      = string
+  type = string
   sensitive = true
 }
 
@@ -80,22 +58,5 @@ variable "postgres_host" {
 }
 
 variable "postgres_port" {
-  type = string
-}
-
-variable "aws_storage_bucket_name" {
-  type = string
-}
-
-variable "aws_s3_region_name" {
-  type = string
-}
-
-variable "aws_s3_custom_domain" {
-  type = string
-}
-
-
-variable "celery_broker_url" {
   type = string
 }

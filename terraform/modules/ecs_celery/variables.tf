@@ -1,7 +1,3 @@
-variable "cluster_name" {
-  type = string
-}
-
 variable "fargate_cpu" {
   type = string
 }
@@ -22,10 +18,6 @@ variable "app_image" {
   type = string
 }
 
-variable "container_port" {
-  type = number
-}
-
 variable "private_subnets" {
   type = list(string)
 }
@@ -34,8 +26,17 @@ variable "security_groups" {
   type = list(string)
 }
 
-variable "alb_target_group_arn" {
+variable "aws_region" {
   type = string
+}
+
+variable "cluster_id" {
+  type = string
+}
+
+variable "cluster_name" {
+  description = "ECS Cluster name (for scaling resource ID)"
+  type        = string
 }
 
 variable "desired_count" {
@@ -43,23 +44,21 @@ variable "desired_count" {
 }
 
 variable "min_capacity" {
-  type    = number
-  default = 1
+  description = "Minimum number of Celery tasks"
+  type        = number
+  default     = 1
 }
 
 variable "max_capacity" {
-  type    = number
-  default = 3
-}
-
-variable "cpu_target_value" {
+  description = "Maximum number of Celery tasks"
   type        = number
-  description = "Target CPU utilization percentage for scaling"
-  default     = 70
+  default     = 10
 }
 
-variable "aws_region" {
-  type = string
+variable "memory_target_value" {
+  description = "Target MemoryUtilization percentage for scaling"
+  type        = number
+  default     = 75
 }
 
 variable "postgres_db" {
@@ -80,22 +79,5 @@ variable "postgres_host" {
 }
 
 variable "postgres_port" {
-  type = string
-}
-
-variable "aws_storage_bucket_name" {
-  type = string
-}
-
-variable "aws_s3_region_name" {
-  type = string
-}
-
-variable "aws_s3_custom_domain" {
-  type = string
-}
-
-
-variable "celery_broker_url" {
   type = string
 }

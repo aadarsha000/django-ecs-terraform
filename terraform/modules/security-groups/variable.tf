@@ -34,3 +34,14 @@ variable "rds_port" {
   default     = 5432  # PostgreSQL default
 }
 
+variable "redis_port" {
+  description = "Port for redis"
+  type        = number
+  default     = 6379
+}
+
+variable "flower_port" {
+  description = "Port for flower"
+  type        = number
+  default     = 5555
+}
