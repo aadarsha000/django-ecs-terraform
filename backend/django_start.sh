@@ -10,4 +10,4 @@ echo "Collecting static files..."
 python manage.py collectstatic --noinput
 
 echo "Starting Django..."
-exec daphne -b 0.0.0.0 -p 80 core.asgi:application
+exec daphne -b 0.0.0.0 -p 8000 core.asgi:application
