@@ -58,3 +58,31 @@ resource "aws_iam_role_policy_attachment" "ecs_s3_attach" {
   role       = aws_iam_role.ecs_task_role.name
   policy_arn = aws_iam_policy.ecs_s3_policy.arn
 }
+
+// Policy for ECS Exec
+resource "aws_iam_policy" "ecs_exec_policy" {
+  name        = "${var.tags["Environment"]}-ecs-exec-policy"
+  description = "Allow ECS tasks to be accessed via ECS Exec"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "ssmmessages:CreateControlChannel",
+          "ssmmessages:CreateDataChannel",
+          "ssmmessages:OpenControlChannel",
+          "ssmmessages:OpenDataChannel"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+  tags = var.tags
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_exec_attach" {
+  role       = aws_iam_role.ecs_task_role.name
+  policy_arn = aws_iam_policy.ecs_exec_policy.arn
+}
