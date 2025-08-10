@@ -53,13 +53,13 @@ variable "container_port" {
 variable "fargate_cpu" {
   description = "Fargate task CPU units"
   type        = number
-  default     = 256
+  default     = 2048
 }
 
 variable "fargate_memory" {
   description = "Fargate task memory (MB)"
   type        = number
-  default     = 512
+  default     = 4096
 }
 
 variable "app_image" {
@@ -154,13 +154,13 @@ variable "ecs_django_desired_count" {
 variable "ecs_django_min_capacity" {
   description = "Min Django tasks for autoscaling"
   type        = number
-  default     = 1
+  default     = 10
 }
 
 variable "ecs_django_max_capacity" {
   description = "Max Django tasks for autoscaling"
   type        = number
-  default     = 4
+  default     = 100
 }
 
 variable "ecs_django_cpu_target" {
@@ -178,13 +178,13 @@ variable "ecs_celery_desired_count" {
 variable "ecs_celery_min_capacity" {
   description = "Min Celery tasks for autoscaling"
   type        = number
-  default     = 1
+  default     = 20
 }
 
 variable "ecs_celery_max_capacity" {
   description = "Max Celery tasks for autoscaling"
   type        = number
-  default     = 5
+  default     = 200
 }
 
 variable "ecs_celery_memory_target" {
