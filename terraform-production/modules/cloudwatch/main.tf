@@ -89,3 +89,69 @@ resource "aws_cloudwatch_metric_alarm" "redis_evictions" {
   alarm_actions             = var.alarm_actions
   tags                      = var.tags
 }
+
+// Read Replica Lag Monitoring
+resource "aws_cloudwatch_metric_alarm" "read_replica_lag" {
+  count = var.read_replica_count
+
+  alarm_name          = "${var.rds_instance_identifier}-replica-${count.index + 1}-lag"
+  alarm_description   = "Alarm when read replica lag > 30 seconds"
+  namespace           = "AWS/RDS"
+  metric_name         = "ReplicaLag"
+  statistic           = "Average"
+  period              = 300
+  evaluation_periods  = 2
+  threshold           = 30
+  comparison_operator = "GreaterThanThreshold"
+  
+  dimensions = {
+    DBInstanceIdentifier = var.read_replica_identifiers[count.index]
+  }
+  
+  alarm_actions = var.alarm_actions
+  tags          = var.tags
+}
+
+// Read Replica CPU Utilization
+resource "aws_cloudwatch_metric_alarm" "read_replica_cpu" {
+  count = var.read_replica_count
+
+  alarm_name          = "${var.rds_instance_identifier}-replica-${count.index + 1}-high-cpu"
+  alarm_description   = "Alarm when read replica CPU > 80%"
+  namespace           = "AWS/RDS"
+  metric_name         = "CPUUtilization"
+  statistic           = "Average"
+  period              = 300
+  evaluation_periods  = 2
+  threshold           = 80
+  comparison_operator = "GreaterThanThreshold"
+  
+  dimensions = {
+    DBInstanceIdentifier = var.read_replica_identifiers[count.index]
+  }
+  
+  alarm_actions = var.alarm_actions
+  tags          = var.tags
+}
+
+// Read Replica Connection Count
+resource "aws_cloudwatch_metric_alarm" "read_replica_connections" {
+  count = var.read_replica_count
+
+  alarm_name          = "${var.rds_instance_identifier}-replica-${count.index + 1}-high-connections"
+  alarm_description   = "Alarm when read replica connections > 400"
+  namespace           = "AWS/RDS"
+  metric_name         = "DatabaseConnections"
+  statistic           = "Average"
+  period              = 300
+  evaluation_periods  = 2
+  threshold           = 400
+  comparison_operator = "GreaterThanThreshold"
+  
+  dimensions = {
+    DBInstanceIdentifier = var.read_replica_identifiers[count.index]
+  }
+  
+  alarm_actions = var.alarm_actions
+  tags          = var.tags
+}

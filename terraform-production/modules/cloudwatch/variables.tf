@@ -38,3 +38,15 @@ variable "tags" {
   description = "Map of tags to apply to all CloudWatch resources"
   type        = map(string)
 }
+
+variable "read_replica_count" {
+  description = "Number of read replicas to monitor"
+  type        = number
+  default     = 0
+}
+
+variable "read_replica_identifiers" {
+  description = "List of read replica identifiers"
+  type        = list(string)
+  default     = []
+}

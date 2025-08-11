@@ -27,7 +27,9 @@ resource "aws_ecs_task_definition" "django" {
         { name = "AWS_STORAGE_BUCKET_NAME",       value = var.aws_storage_bucket_name },
         { name = "AWS_S3_REGION_NAME",           value = var.aws_s3_region_name },
         { name = "AWS_S3_CUSTOM_DOMAIN",         value = var.aws_s3_custom_domain },
-        { name = "CELERY_BROKER_URL",             value = var.celery_broker_url }
+        { name = "CELERY_BROKER_URL",             value = var.celery_broker_url },
+        { name = "POSTGRES_READ_HOSTS",     value = var.postgres_read_hosts },
+        { name = "POSTGRES_READ_COUNT",     value = tostring(var.postgres_read_count) }
       ]
       logConfiguration = {
         logDriver = "awslogs"

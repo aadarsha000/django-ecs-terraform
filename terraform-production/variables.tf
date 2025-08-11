@@ -222,3 +222,49 @@ variable "ecs_celery_memory_target" {
   type        = number
   default     = 75
 }
+
+variable "enable_read_replicas" {
+  description = "Whether to create read replicas for the database"
+  type        = bool
+  default     = true
+}
+
+variable "read_replica_count" {
+  description = "Number of read replicas to create"
+  type        = number
+  default     = 2
+  validation {
+    condition     = var.read_replica_count >= 0 && var.read_replica_count <= 5
+    error_message = "Read replica count must be between 0 and 5."
+  }
+}
+
+variable "read_replica_instance_class" {
+  description = "Instance class for read replicas (typically smaller than master)"
+  type        = string
+  default     = "db.r6g.large"
+}
+
+variable "read_replica_storage_size" {
+  description = "Storage size for read replicas in GB"
+  type        = number
+  default     = 512
+}
+
+variable "read_replica_storage_type" {
+  description = "Storage type for read replicas"
+  type        = string
+  default     = "gp3"
+}
+
+variable "read_replica_iops" {
+  description = "IOPS for read replicas (for io1/io2 storage types)"
+  type        = number
+  default     = null
+}
+
+variable "distribute_replicas_across_azs" {
+  description = "Whether to distribute read replicas across availability zones"
+  type        = bool
+  default     = true
+}

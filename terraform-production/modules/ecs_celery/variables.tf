@@ -127,3 +127,15 @@ variable "debug" {
   type = bool
   default = false
 }
+
+variable "postgres_read_hosts" {
+  description = "Comma-separated list of read replica endpoints"
+  type        = string
+  default     = ""
+}
+
+variable "postgres_read_count" {
+  description = "Number of read replicas available"
+  type        = number
+  default     = 0
+}

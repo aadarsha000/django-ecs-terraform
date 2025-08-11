@@ -96,3 +96,75 @@ variable "tags" {
   description = "Map of tags to apply to all RDS resources"
   type        = map(string)
 }
+
+variable "create_read_replicas" {
+  description = "Whether to create read replicas"
+  type        = bool
+  default     = true
+}
+
+variable "read_replica_count" {
+  description = "Number of read replicas to create"
+  type        = number
+  default     = 2
+}
+
+variable "read_replica_instance_class" {
+  description = "Instance class for read replicas (can be smaller than master)"
+  type        = string
+  default     = "db.r6g.large"
+}
+
+variable "read_replica_storage_type" {
+  description = "Storage type for read replicas"
+  type        = string
+  default     = "gp3"
+}
+
+variable "read_replica_iops" {
+  description = "IOPS for read replicas"
+  type        = number
+  default     = null
+}
+
+variable "read_replica_allocated_storage" {
+  description = "Allocated storage for read replicas (GB)"
+  type        = number
+  default     = 512
+}
+
+variable "read_replica_availability_zones" {
+  description = "Availability zones for read replicas"
+  type        = list(string)
+  default     = []
+}
+
+variable "read_replica_multi_az" {
+  description = "Enable Multi-AZ for read replicas"
+  type        = bool
+  default     = false
+}
+
+variable "read_replica_auto_minor_version_upgrade" {
+  description = "Enable auto minor version upgrade for read replicas"
+  type        = bool
+  default     = true
+}
+
+variable "read_replica_backup_retention_period" {
+  description = "Backup retention period for read replicas"
+  type        = number
+  default     = 0
+}
+
+variable "read_replica_performance_insights_enabled" {
+  description = "Enable Performance Insights for read replicas"
+  type        = bool
+  default     = true
+}
+
+variable "read_replica_monitoring_interval" {
+  description = "Enhanced monitoring interval for read replicas"
+  type        = number
+  default     = 60
+}

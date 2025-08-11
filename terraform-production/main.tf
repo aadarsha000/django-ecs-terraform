@@ -52,6 +52,9 @@ data "aws_secretsmanager_secret_version" "db_password" {
 }
 locals {
   db_secret = jsondecode(data.aws_secretsmanager_secret_version.db_password.secret_string)
+
+  # Calculate read replica AZs
+  replica_azs = var.distribute_replicas_across_azs ? var.availability_zones : []
 }
 
 module "postgres" {
@@ -70,6 +73,20 @@ module "postgres" {
   backup_retention_period = 7
   skip_final_snapshot     = true
   deletion_protection     = false
+
+  # Read replica configuration
+  create_read_replicas              = var.enable_read_replicas
+  read_replica_count               = var.read_replica_count
+  read_replica_instance_class      = var.read_replica_instance_class
+  read_replica_allocated_storage   = var.read_replica_storage_size
+  read_replica_storage_type        = var.read_replica_storage_type
+  read_replica_iops               = var.read_replica_iops
+  read_replica_availability_zones  = local.replica_azs
+  read_replica_multi_az           = false
+  read_replica_performance_insights_enabled = true
+  read_replica_monitoring_interval = 60
+
+
   tags                    = local.common_tags
 }
 
@@ -124,6 +141,11 @@ module "ecs_django" {
   postgres_password       = local.db_secret.password
   postgres_host           = module.postgres.db_instance_endpoint
   postgres_port           = module.postgres.db_instance_port
+
+  # read replica endpoints
+  postgres_read_hosts     = join(",", module.postgres.read_replica_endpoints)
+  postgres_read_count     = module.postgres.read_replica_count
+
   aws_storage_bucket_name = module.s3.s3_bucket_name
   aws_s3_region_name      = var.aws_region
   aws_s3_custom_domain    = module.s3.cloudfront_domain_name
@@ -152,6 +174,11 @@ module "ecs_celery" {
   postgres_password       = local.db_secret.password
   postgres_host           = module.postgres.db_instance_endpoint
   postgres_port           = module.postgres.db_instance_port
+
+  # read replica endpoints
+  postgres_read_hosts     = join(",", module.postgres.read_replica_endpoints)
+  postgres_read_count     = module.postgres.read_replica_count
+
   aws_region              = var.aws_region
   aws_storage_bucket_name = module.s3.s3_bucket_name
   aws_s3_region_name      = var.aws_region
@@ -177,6 +204,11 @@ module "ecs_flower" {
   postgres_password       = local.db_secret.password
   postgres_host           = module.postgres.db_instance_endpoint
   postgres_port           = module.postgres.db_instance_port
+
+  # read replica endpoints
+  postgres_read_hosts     = join(",", module.postgres.read_replica_endpoints)
+  postgres_read_count     = module.postgres.read_replica_count
+
   aws_storage_bucket_name = module.s3.s3_bucket_name
   aws_s3_region_name      = var.aws_region
   aws_s3_custom_domain    = module.s3.cloudfront_domain_name
@@ -192,6 +224,8 @@ module "cloudwatch" {
   celery_service_name        = module.ecs_celery.service_name
   flower_service_name        = module.ecs_flower.service_name
   rds_instance_identifier    = module.postgres.instance_identifier
+  read_replica_count         = module.postgres.read_replica_count
+  read_replica_identifiers   = module.postgres.read_replica_identifiers
   redis_replication_group_id = module.redis.replication_group_id
   alarm_actions              = var.alarm_sns_topic_arns
   tags                       = local.common_tags
