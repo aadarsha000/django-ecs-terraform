@@ -107,7 +107,13 @@ variable "redis_port" {
 variable "redis_node_type" {
   description = "ElastiCache node type (e.g., cache.t3.micro)"
   type        = string
-  default     = "cache.t3.micro"
+  default     = "cache.r6g.xlarge"
+}
+
+variable "redis_num_shards" {
+  description = "Number of shards for Redis cluster mode"
+  type        = number
+  default     = 3
 }
 
 variable "rds_instance_class" {

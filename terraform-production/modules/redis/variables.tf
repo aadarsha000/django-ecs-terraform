@@ -13,6 +13,12 @@ variable "node_type" {
   type        = string
 }
 
+variable "num_shards" {
+  description = "Number of shards for Redis cluster mode"
+  type        = number
+  default     = 1
+}
+
 variable "replicas_per_node_group" {
   description = "Number of read replicas per node group (1 recommended for HA)"
   type        = number

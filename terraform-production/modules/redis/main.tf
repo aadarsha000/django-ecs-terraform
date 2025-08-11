@@ -21,7 +21,7 @@ resource "aws_elasticache_replication_group" "this" {
   security_group_ids            = var.security_group_ids
 
   automatic_failover_enabled    = var.replicas_per_node_group > 0
-  num_node_groups               = 1
+  num_node_groups               = var.num_shards
   replicas_per_node_group       = var.replicas_per_node_group
   multi_az_enabled              = var.replicas_per_node_group > 0
 

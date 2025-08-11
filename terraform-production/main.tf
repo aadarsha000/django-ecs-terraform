@@ -42,6 +42,7 @@ module "redis" {
   subnet_ids         = module.network.private_subnet_ids
   security_group_ids = [module.security_groups.redis_sg_id]
   node_type          = var.redis_node_type
+  num_shards         = var.redis_num_shards
   tags               = local.common_tags
 }
 
