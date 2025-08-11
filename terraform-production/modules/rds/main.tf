@@ -22,7 +22,8 @@ resource "aws_db_instance" "this" {
   engine_version          = var.engine_version
   instance_class          = var.instance_class
   allocated_storage       = var.allocated_storage
-  storage_type            = "gp3"
+  storage_type            = var.storage_type
+  iops                    = var.iops
   db_name                 = var.db_name
   username                = var.username
   password                = local.db_password

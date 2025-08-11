@@ -110,6 +110,30 @@ variable "redis_node_type" {
   default     = "cache.t3.micro"
 }
 
+variable "rds_instance_class" {
+  description = "Instance class for the RDS instance"
+  type        = string
+  default     = "db.r6g.xlarge"
+}
+
+variable "rds_allocated_storage" {
+  description = "Allocated storage in GB for the RDS instance"
+  type        = number
+  default     = 1024
+}
+
+variable "rds_storage_type" {
+  description = "Storage type for the RDS instance"
+  type        = string
+  default     = "io2"
+}
+
+variable "rds_iops" {
+  description = "IOPS for the RDS instance"
+  type        = number
+  default     = 3000
+}
+
 variable "flower_port" {
   description = "Flower monitoring port"
   type        = number

@@ -61,6 +61,10 @@ module "postgres" {
   db_name                 = var.postgres_db
   username                = var.postgres_user
   rds_password            = local.db_secret.password
+  instance_class          = var.rds_instance_class
+  allocated_storage       = var.rds_allocated_storage
+  storage_type            = var.rds_storage_type
+  iops                    = var.rds_iops
   multi_az                = true
   backup_retention_period = 7
   skip_final_snapshot     = true

@@ -37,6 +37,18 @@ variable "allocated_storage" {
   default     = 20
 }
 
+variable "storage_type" {
+  description = "Storage type for the RDS instance"
+  type        = string
+  default     = "gp3"
+}
+
+variable "iops" {
+  description = "IOPS for the RDS instance"
+  type        = number
+  default     = null
+}
+
 variable "db_name" {
   description = "Initial database name"
   type        = string
